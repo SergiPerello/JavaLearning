@@ -2,11 +2,12 @@ package uf3_Projectes;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class a99_jocPenjat {
 	
 	String word = "llapis";
+	int attempts = 8;
+	Scanner sc;
 	
 	public static void main(String[] args) {
 		a99_jocPenjat program = new a99_jocPenjat();
@@ -17,14 +18,19 @@ public class a99_jocPenjat {
 		ArrayList<Integer> positions = new ArrayList<Integer>();
 		int wordLength = word.length();
 		char[] finalWord = drawUnderscores(wordLength);
-		char userChar = askCase();
-		positions = checkChar(userChar, wordLength);
-		
-		if (positions.size()!=0) {
-			finalWord = replaceChar(positions, finalWord, userChar);
-			System.out.println(finalWord);
+		char userChar;
+		sc = new Scanner(System.in);
+		for (int i=0;i<attempts;i++) {
+			userChar = askChar();
+			positions = checkChar(userChar, wordLength);
+			if (positions.size()!=0)
+				finalWord = replaceChar(positions, finalWord, userChar);
+			else
+				System.out.println("Incorrecte");
+			showWord(finalWord,wordLength);
 		}
-		else System.out.println("Error, el char no esta al string");
+		sc.close();
+		
 	}
 	
 	private char[] drawUnderscores(int wordLength) {
@@ -34,8 +40,7 @@ public class a99_jocPenjat {
 		return finalWord;
 	}
 	
-	private char askCase() {
-		Scanner sc = new Scanner(System.in);
+	private char askChar() {
 		System.out.print("Escriu una lletra: ");
 		char userChar = sc.next().charAt(0);
 		Character.toLowerCase(userChar);
@@ -44,7 +49,6 @@ public class a99_jocPenjat {
 			userChar = sc.next().charAt(0);
 			Character.toLowerCase(userChar);
 		}
-		sc.close();
 		return userChar;
 	}
 	
@@ -69,6 +73,13 @@ public class a99_jocPenjat {
 			finalWord[currentPosition] = userChar;
 		}
 		return finalWord;
+	}
+	
+	private void showWord(char[] finalWord, int wordLength) {
+		for (int i = 0;i<wordLength;i++) {
+			System.out.print(finalWord[i]+" ");
+		}
+		System.out.println();
 	}
 }
 /*
